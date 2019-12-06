@@ -303,12 +303,12 @@
 
     uint8_t CPU6502::ADC() {
         fetch();
-        temp = (uint16_t) fetched + (uint16_t) a + GetFlag(C);
+        temp = (uint16_t) fetched + (uint16_t) a + (uint16_t)GetFlag(C);
         SetFlag(C, temp > 255);
-        SetFlag(Z, (temp & 0xFF00) == 0x00);
+        SetFlag(Z, (temp & 0x00FF) == 0x00);
         SetFlag(N, (temp & 0xFF00) & 0x80);
         SetFlag(V, (~((uint16_t) a ^ (uint16_t) fetched) & ((uint16_t) a ^ (uint16_t) temp)) & 0x0080);
-        a = temp & 0x80;
+        a = temp & 0x00FF;
         return 1;
     }
 
@@ -556,16 +556,16 @@
     uint8_t CPU6502::LDA() {
         fetch();
         a = fetched;
-        SetFlag(N, a == 0x00);
-        SetFlag(Z, a & 0x80);
+        SetFlag(Z, a == 0x00);
+        SetFlag(N, a & 0x80);
         return 0;
     }
 
     uint8_t CPU6502::LDX() {
         fetch();
         x = fetched;
-        SetFlag(N, x == 0x00);
-        SetFlag(Z, x & 0x80);
+        SetFlag(Z, x == 0x00);
+        SetFlag(N, x & 0x80);
 
         return 0;
     }
@@ -573,8 +573,8 @@
     uint8_t CPU6502::LDY() {
         fetch();
         y = fetched;
-        SetFlag(N, y == 0x00);
-        SetFlag(Z, y & 0x80);
+        SetFlag(Z, y == 0x00);
+        SetFlag(N, y & 0x80);
 
         return 0;
     }

@@ -20,13 +20,15 @@ find_package(OpenGL REQUIRED)
 find_package(X11 REQUIRED)
 find_package(PNG REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})
+include_directories(olcPixelGameEngin)
+set(Sources Bus.cpp Bus.h CPU6502.cpp CPU6502.h olcPixelGameEngin/olcPixelGameEngin.h drawCPU.cpp)
 
 # Set platform spesific output names
 set(Executable ${ExecutableName}.o)
-set(-lstdc++fs)
 add_executable(${Executable}
         ${SourceFiles}
         # Add more directories, files or CMake variables here to have them compile too!
+        Bus.cpp CPU6502.cpp drawCPU.cpp
         )
 
 target_link_libraries(${Executable}
@@ -39,4 +41,5 @@ target_link_libraries(${Executable}
 target_link_libraries(${Executable}
         ${X11_LIBRARIES}
         PNG::PNG
+        stdc++fs
         )
